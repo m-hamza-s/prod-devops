@@ -26,3 +26,13 @@ jobs:
 
     - name: Cleanup
       run: docker stop test-app && docker rm test-app
+
+    - name: Log in to GHCR
+      if: github.ref == 'refs/heads/main'
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Push image to GHCR
+      if: github.ref == 'refs/heads/main'
+      run: |
+        docker build -t ghcr.io/${{ github.repository }}:latest .
+        docker push ghcr.io/${{ github.repository }}:latest
