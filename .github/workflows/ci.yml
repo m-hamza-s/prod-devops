@@ -1,0 +1,29 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs: 
+  build-and-test:
+    runs-on: ubuntu-latest
+
+steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t prod-devops-app:test .
+
+    - name: Run container
+      run: |
+        docker run -d -p 5000:5000 --name test-app prod-devops-app:test
+        sleep 3
+
+    - name: Test health endpoint
+      run: curl --fail http://localhost:5000/health
+
+    - name: Cleanup
+      run: docker stop test-app && docker rm test-app
