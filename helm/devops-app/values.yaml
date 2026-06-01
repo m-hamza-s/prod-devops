@@ -1,0 +1,20 @@
+app:
+  name: devops-app
+  image: prod-devops-app
+  tag: latest
+  pullPolicy: Never
+  replicas: 2
+  port: 5000
+
+redis:
+  image: redis
+  tag: 7-alpine
+  port: 6379
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: true
+  host: devops-app.local

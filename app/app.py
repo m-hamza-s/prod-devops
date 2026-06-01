@@ -14,13 +14,15 @@ redis_client = redis.Redis(
 def home():
     count = redis_client.incr('hits')
     return {
-        "message": "DevOps Stage 1 - Running in Docker!",
+        "message": "DevOps Stage 2 - Rolling Update!",
+        "version": "v2",
         "hit_count": count
     }
 
 @app.route('/health')
 def health():
-    return {"status": "healthy"}
+    return {"status": "healthy", "version": "v2"}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
