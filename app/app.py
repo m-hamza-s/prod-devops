@@ -10,14 +10,19 @@ redis_client = redis.Redis(
     decode_responses=True
 )
 
+
 @app.route('/')
 def home():
-    return 1 / 0  # Crashes
+    count = redis_client.incr('hits')
+    return {
+        "message": "DevOps Stage 2 - Rolling Update!",
+        "version": "v2",
+        "hit_count": count
+    }
 
 @app.route('/health')
 def health():
-    # Return 500 so readiness probe fails
-    return {"status": "unhealthy"}, 500
+    return {"status": "healthy", "version": "v2"}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
