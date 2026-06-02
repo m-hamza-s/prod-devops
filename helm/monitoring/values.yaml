@@ -1,0 +1,12 @@
+# Prometheus + Grafana stack values for Docker Desktop
+# Install: helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring -f helm/monitoring/values.yml
+
+grafana:
+  adminPassword: admin123
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+nodeExporter:
+  enabled: false   # Disabled — Docker Desktop blocks host access
