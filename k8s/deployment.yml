@@ -5,7 +5,7 @@ metadata:
   labels:
     app: devops-app
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: devops-app
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: devops-app
-        image: prod-devops-app:v3-broken
+        image: prod-devops-app:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5000
@@ -43,3 +43,4 @@ spec:
         image: redis:7-alpine
         ports:
         - containerPort: 6379
+
